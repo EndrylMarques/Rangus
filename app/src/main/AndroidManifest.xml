@@ -24,7 +24,8 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".LoginActivity" />
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".CadastroActivity"></activity>
     </application>
 
 </manifest>

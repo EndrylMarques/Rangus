@@ -125,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v == btnCadastrar){
 
             //Startar Cadastro
+            Intent intent = new Intent(this, CadastroActivity.class);
+            startActivity(intent);
 
         }
 
@@ -134,9 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, btnLogar,"logar");
-
                 startActivity(intent,options.toBundle());
-
             }else{
                 startActivity(intent);
             }

@@ -5,4 +5,7 @@
     <string name="senha">senha</string>
     <string name="logar">Logar</string>
     <string name="email">email</string>
+    <string name="telefone">telefone</string>
+    <string name="confirmar_senha">confirmar senha</string>
+    <string name="cadastrar">Cadastrar</string>
 </resources>

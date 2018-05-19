@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_main"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/bg_main">
+    tools:context=".CadastroActivity">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:background="@drawable/bg_animacao_cadastro"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/emoji_tongue"
-        app:lottie_loop="true"/>
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/like"/>
 
     <LinearLayout
         android:layout_margin="20dp"
         android:background="@drawable/bg_layout_box"
         android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="380dp"
         android:gravity="center"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/login_user"
+            android:id="@+id/cadastro_email"
             android:background="@drawable/bg_user_input_login"
             android:layout_margin="10dp"
             android:layout_width="230dp"
@@ -36,7 +39,7 @@
             />
 
         <EditText
-            android:id="@+id/login_password"
+            android:id="@+id/cadastro_password"
             android:layout_margin="10dp"
             android:background="@drawable/bg_user_input_login"
             android:layout_width="230dp"
@@ -46,47 +49,47 @@
             android:inputType="textPassword"
             />
 
+        <EditText
+            android:id="@+id/cadastro_confirma_password"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_user_input_login"
+            android:layout_width="230dp"
+            android:layout_height="50dp"
+            android:hint="@string/confirmar_senha"
+            android:gravity="center"
+            android:inputType="textPassword"
+            />
+
+        <EditText
+            android:id="@+id/cadastro_telefone"
+            android:background="@drawable/bg_user_input_login"
+            android:layout_margin="10dp"
+            android:layout_width="230dp"
+            android:layout_height="50dp"
+            android:hint="@string/telefone"
+            android:gravity="center"
+            android:inputType="phone"
+            />
+
         <TextView
-            android:id="@+id/login_text_senha"
+            android:id="@+id/cadastro_text_senha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textColor="#FFFFFF"
             android:text="Mostrar senha"
             android:textStyle="bold"/>
 
-        <LinearLayout
-            android:layout_width="230dp"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_gravity="center"
-                android:layout_height="1dp"
-                android:layout_width="fill_parent"
-                android:background="#FFFFFF"
-                />
-
-        </LinearLayout>
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/login_btnGoogle"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            >
-        </com.google.android.gms.common.SignInButton>
-
     </LinearLayout>
 
-
-
     <Button
-        android:id="@+id/login_btnLogin"
+        android:layout_gravity="center"
+        android:id="@+id/cadastro_btnCadastra"
         android:layout_margin="10dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_shadow_btn"
-        android:text="@string/logar"
+        android:text="@string/cadastrar"
         android:textAllCaps="false"/>
 
 </LinearLayout>
