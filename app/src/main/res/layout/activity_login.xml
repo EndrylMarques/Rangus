@@ -11,7 +11,7 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/emoji_tongue"
         app:lottie_loop="true"/>
@@ -20,7 +20,7 @@
         android:layout_margin="20dp"
         android:background="@drawable/bg_layout_box"
         android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -55,14 +55,39 @@
             android:text="Mostrar senha"
             android:textStyle="bold"/>
 
+        <LinearLayout
+            android:layout_width="230dp"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_gravity="center"
+                android:layout_height="1dp"
+                android:layout_width="fill_parent"
+                android:background="#FFFFFF"
+                />
+
+        </LinearLayout>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/login_btnGoogle"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            >
+        </com.google.android.gms.common.SignInButton>
+
     </LinearLayout>
+
+
+
+
 
     <Button
         android:id="@+id/login_btnLogin"
         android:layout_margin="10dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_layout_btn"
+        android:background="@drawable/bg_shadow_btn"
         android:text="@string/logar"
         android:textAllCaps="false"/>
 

@@ -1,30 +1,47 @@
 package mobile.ucsal.br.rangus;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final int RC_SIGN_IN = 1;
+
     private FirebaseAuth firebaseAuth;
+    private GoogleSignInClient googleSignIn;
+
+    private ProgressDialog progressDialog;
 
     private TextView textMostrar;
 
     private EditText editTextUser;
     private EditText editTextPassword;
+
     private Button btnLogin;
+    private SignInButton btnLogarGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +49,25 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         findViewsById();
+
+        googleAuth();
         firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
+
         iniciarEscutadores();
+
+
+
+
+    }
+
+    private void googleAuth() {
+
+        GoogleSignInOptions gpo = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleSignIn = GoogleSignIn.getClient(this, gpo);
 
 
     }
@@ -52,11 +86,13 @@ public class LoginActivity extends AppCompatActivity {
 
                              if(task.isSuccessful()){
                                  //Loguei activity
-                                 Toast.makeText(LoginActivity.this, "LOGOU",Toast.LENGTH_SHORT).show();
+                                 progressDialog.dismiss();
+                                 //iniciar activity
+                                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                 finish();
 
                              }else{
-                                 //Jogar um erro
-                                 Toast.makeText(LoginActivity.this, "BURRO",Toast.LENGTH_SHORT).show();
+                                 progressDialog.dismiss();
                              }
 
                         }
@@ -79,12 +115,14 @@ public class LoginActivity extends AppCompatActivity {
 
         if(email.isEmpty()){
             editTextUser.setError("Email invalido");
+            progressDialog.dismiss();
             return false;
         }
 
 
         if(senha.isEmpty()){
             editTextPassword.setError("Senha invalido");
+            progressDialog.dismiss();
             return false;
         }
 
@@ -98,6 +136,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                progressDialog.setMessage("Logando...");
+                progressDialog.show();
                 logar();
 
             }
@@ -123,6 +163,22 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        btnLogarGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+                logarGoolge();
+                
+            }
+        });
+
+    }
+
+    private void logarGoolge() {
+
+        Intent signInIntent = googleSignIn.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     private void findViewsById() {
@@ -133,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
         textMostrar = findViewById(R.id.login_text_senha);
 
         btnLogin = findViewById(R.id.login_btnLogin);
+        btnLogarGoogle = findViewById(R.id.login_btnGoogle);
 
     }
 
@@ -140,5 +197,36 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == RC_SIGN_IN){
+
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            resultSignInGoogle(task);
+
+        }
+
+    }
+
+    private void resultSignInGoogle(Task<GoogleSignInAccount> task) {
+
+        try {
+
+            GoogleSignInAccount accout = task.getResult(ApiException.class);
+
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+
+        }catch (ApiException e){
+
+            Log.d("Google Error", e.getMessage());
+            Toast.makeText(this,"Ocorreu um erro", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 }
