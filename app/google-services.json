@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "521731316517",
+    "firebase_url": "https://rangus-bdd2e.firebaseio.com",
+    "project_id": "rangus-bdd2e",
+    "storage_bucket": "rangus-bdd2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521731316517:android:34ff1a2decb44ce2",
+        "android_client_info": {
+          "package_name": "mobile.ucsal.br.rangus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521731316517-3nfv32lfbrhesdsjccotpb388696sgvk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mobile.ucsal.br.rangus",
+            "certificate_hash": "af6ee81d22b0e62ff4daf6357300ac035fc968f5"
+          }
+        },
+        {
+          "client_id": "521731316517-kl98d57fqio3oepd3c593cn9i2gn8mq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTOUGWqF0LXrriXfiL_pyDRwxzjNxa6oI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521731316517-kl98d57fqio3oepd3c593cn9i2gn8mq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
