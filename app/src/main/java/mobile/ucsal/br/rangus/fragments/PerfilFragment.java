@@ -67,7 +67,7 @@ public class PerfilFragment extends Fragment{
             @Override
             public void onClick(View v) {
 
-                Uri uri = Uri.parse("smsto:" + "+55" + userModel.getTelefone());
+                Uri uri = Uri.parse("smsto:" + userModel.getTelefone());
                 Intent i = new Intent(Intent.ACTION_SENDTO, uri);
 
                 i.setPackage("com.whatsapp");
