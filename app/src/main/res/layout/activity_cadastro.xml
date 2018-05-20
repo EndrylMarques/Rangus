@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CadastroActivity">
+    tools:context=".activitys.CadastroActivity">
 
     <com.airbnb.lottie.LottieAnimationView
         android:background="@drawable/bg_animacao_cadastro"
@@ -50,14 +50,14 @@
             />
 
         <EditText
-            android:id="@+id/cadastro_confirma_password"
+            android:id="@+id/cadastro_nome"
             android:layout_margin="10dp"
             android:background="@drawable/bg_user_input_login"
             android:layout_width="230dp"
             android:layout_height="50dp"
-            android:hint="@string/confirmar_senha"
+            android:hint="@string/nome"
             android:gravity="center"
-            android:inputType="textPassword"
+            android:inputType="textPersonName"
             />
 
         <EditText

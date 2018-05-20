@@ -1,4 +1,4 @@
-package mobile.ucsal.br.rangus;
+package mobile.ucsal.br.rangus.activitys;
 
 import android.animation.Animator;
 import android.app.ActivityOptions;
@@ -6,22 +6,25 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import mobile.ucsal.br.rangus.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    LinearLayout linearLayout;
-    LottieAnimationView animationView;
-    Button btnLogar;
-    Button btnCadastrar;
+    private FirebaseAuth firebaseAuth;
+
+    private LinearLayout linearLayout;
+    private LottieAnimationView animationView;
+    private Button btnLogar;
+    private Button btnCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +32,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         findViewsById();
+        firebaseAuth = FirebaseAuth.getInstance();
         startAnimations();
 
         btnLogar.setOnClickListener(this);
         btnCadastrar.setOnClickListener(this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser userAtual = firebaseAuth.getCurrentUser();
+
+        if(userAtual != null){
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        }
 
     }
 

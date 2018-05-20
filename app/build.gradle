@@ -19,7 +19,18 @@ android {
 }
 
 dependencies {
+    implementation("com.mikepenz:materialdrawer:6.0.7@aar") {
+        transitive = true
+    }
+    implementation "com.mikepenz:iconics-core:3.0.3@aar"
+    implementation 'com.mikepenz:fontawesome-typeface:5.0.6.0@aar'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.android.support:appcompat-v7:27"
+    implementation "com.android.support:recyclerview-v7:27"
+    implementation "com.android.support:support-annotations:27"
     implementation 'br.com.simplepass:loading-button-android:1.14.0'
+    implementation "com.android.support:design:27"
     implementation 'com.google.android.gms:play-services-auth:11.6.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -27,6 +38,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.google.firebase:firebase-database:11.6.0'
     implementation 'com.google.firebase:firebase-auth:11.6.0'
+    implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

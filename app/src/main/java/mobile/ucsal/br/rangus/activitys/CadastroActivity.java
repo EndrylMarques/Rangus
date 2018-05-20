@@ -1,5 +1,6 @@
-package mobile.ucsal.br.rangus;
+package mobile.ucsal.br.rangus.activitys;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -16,13 +17,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import mobile.ucsal.br.rangus.R;
 import mobile.ucsal.br.rangus.model.User;
 
 public class CadastroActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase database;
@@ -30,7 +33,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
     private EditText editTextEmail;
     private EditText editTextSenha;
-    private EditText editTextSenhaConfirm;
+    private EditText editTextNome;
     private EditText editTextTelefone;
 
     private TextView mostrarSenha;
@@ -45,10 +48,12 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_cadastro);
 
         findViewsById();
+
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
 
+        progressDialog = new ProgressDialog(this);
 
         btnCadastra.setOnClickListener(this);
         mostrarSenha.setOnClickListener(this);
@@ -58,7 +63,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
         editTextEmail = findViewById(R.id.cadastro_email);
         editTextSenha = findViewById(R.id.cadastro_password);
-        editTextSenhaConfirm = findViewById(R.id.cadastro_confirma_password);
+        editTextNome = findViewById(R.id.cadastro_nome);
         editTextTelefone = findViewById(R.id.cadastro_telefone);
 
         btnCadastra = findViewById(R.id.cadastro_btnCadastra);
@@ -84,12 +89,10 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
                 mostrarSenha.setText("Esconder senha");
                 editTextSenha.setTransformationMethod(null);
-                editTextSenhaConfirm.setTransformationMethod(null);
                 cont++;
             } else {
                 mostrarSenha.setText("Mostrar senha");
                 editTextSenha.setTransformationMethod(new PasswordTransformationMethod());
-                editTextSenhaConfirm.setTransformationMethod(new PasswordTransformationMethod());
                 cont--;
 
             }
@@ -99,22 +102,27 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
     private void cadastrar() {
 
+        progressDialog.setMessage("Cadastrando...");
+        progressDialog.show();
+
         String email = editTextEmail.getText().toString().trim();
         String senha = editTextSenha.getText().toString().trim();
-        String confirmSenha = editTextSenhaConfirm.getText().toString().trim();
+        String nome = editTextNome.getText().toString();
         String telefone = editTextTelefone.getText().toString().trim();
 
-        if(validar(email,senha,confirmSenha,telefone)){
+        if(validar(email,senha,nome,telefone)){
 
             //Cadastra
-            signUp(email,senha,telefone);
+            signUp(email,senha,telefone,nome);
 
 
         }
 
     }
 
-    private void signUp(final String email, String senha, final String telefone) {
+    private void signUp(final String email, String senha, final String telefone, final String nome) {
+
+        progressDialog.setMessage("Finalizando...");
 
         firebaseAuth.createUserWithEmailAndPassword(email,senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -124,13 +132,14 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                         if(task.isSuccessful()){
 
                             FirebaseUser firebaseUserAtual = firebaseAuth.getCurrentUser();
-                            writeData(telefone,email,firebaseUserAtual);
-
+                            writeData(nome,telefone,email,firebaseUserAtual);
                             startActivity(new Intent(CadastroActivity.this,HomeActivity.class));
                             finish();
 
                         }else{
-                            Toast.makeText(CadastroActivity.this, "Falha na autenticacao", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+
+                            Toast.makeText(CadastroActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -138,9 +147,9 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void writeData(String telefone, String email, FirebaseUser firebaseUserAtual) {
+    private void writeData(String nome, String telefone, String email, FirebaseUser firebaseUserAtual) {
 
-        User user = new User(telefone,email);
+        User user = new User(telefone,email,nome);
 
         String userFirebaseId = firebaseUserAtual.getUid();
 
@@ -155,26 +164,26 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
         if(email.isEmpty()){
 
             editTextEmail.setError("Email inválido");
+            progressDialog.dismiss();
             return false;
         }else if(senha.isEmpty()){
 
             editTextSenha.setError("Senha inválida");
+            progressDialog.dismiss();
             return false;
         }else if(telefone.isEmpty()){
 
             editTextTelefone.setError("Telefone inválido");
+            progressDialog.dismiss();
             return false;
         }else if(confirmSenha.isEmpty()){
 
-            editTextSenha.setError("Confirmação necessária");
+            editTextSenha.setError("Nome Obrigatório");
+            progressDialog.dismiss();
             return false;
-        }else if(!senha.equals(confirmSenha)){
-
-            editTextSenhaConfirm.setError("Senhas não batem");
-
-            return false;
-
         }
+
+
 
         return true;
 
