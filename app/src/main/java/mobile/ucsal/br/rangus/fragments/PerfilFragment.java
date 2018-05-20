@@ -1,6 +1,7 @@
 package mobile.ucsal.br.rangus.fragments;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+
+import java.net.URLEncoder;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mobile.ucsal.br.rangus.R;
@@ -67,11 +70,19 @@ public class PerfilFragment extends Fragment{
             @Override
             public void onClick(View v) {
 
-                Uri uri = Uri.parse("smsto:" + userModel.getTelefone());
-                Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+                PackageManager packageManager = getContext().getPackageManager();
+                Intent i = new Intent(Intent.ACTION_VIEW);
 
-                i.setPackage("com.whatsapp");
-                startActivity(i);
+                try {
+                    String url = "https://api.whatsapp.com/send?phone="+ "55" + userModel.getTelefone().trim();
+                    i.setPackage("com.whatsapp");
+                    i.setData(Uri.parse(url));
+                    if (i.resolveActivity(packageManager) != null) {
+                        getContext().startActivity(i);
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
 
             }
         });
